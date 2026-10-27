@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import path from "path";
 import mongoose from "mongoose";
 import methodOverride from "method-override";
+import ejsMate from "ejs-mate";
 import CampGround from "./models/campGround.models.js";
 const app = express();
 
@@ -23,6 +24,7 @@ const connectDB = async () => {
 
 connectDB();
 
+app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(import.meta.dirname, 'views'));
 
