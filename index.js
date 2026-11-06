@@ -5,6 +5,8 @@ import mongoose from "mongoose";
 import methodOverride from "method-override";
 import ejsMate from "ejs-mate";
 import CampGround from "./models/campGround.models.js";
+import catchAsync from "./utils/catchAsync.js";
+// import ExpressError from "./utils/ExpressError.js";
 const app = express();
 
 dotenv.config({
@@ -51,12 +53,12 @@ app.get('/campgrounds/new', (req, res) => {
     res.render('campgrounds/new');
 })
 
-app.post('/campgrounds', async (req, res) => {
-    const { title , location, image, price, description } = req.body.campground;
-    const campground = new CampGround({ title: title, location: location, image: image, price: price, description: description });
-    await campground.save();
+app.post('/campgrounds', async (req, res, next) => {
+        const { title, location, image, price, description } = req.body.campground;
+        const campground = new CampGround({ title: title, location: location, image: image, price: price, description: description });
+        await campground.save();
 
-    res.redirect(`/campgrounds/${campground._id}`);
+        res.redirect(`/campgrounds/${campground._id}`);
 })
 
 app.get('/campgrounds/:id', async (req, res) => {
@@ -82,6 +84,12 @@ app.delete('/campgrounds/:id', async (req, res) => {
     await CampGround.findByIdAndDelete(req.params.id);
 
     res.redirect('/campgrounds');
+})
+
+// Error Handling Middleware
+
+app.use((err, req, res, next) => {
+    res.send("Something went wrong !!");
 })
 
 app.listen(port, () => {
