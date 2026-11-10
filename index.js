@@ -58,7 +58,6 @@ const validateCampground = (req, res, next) => {
         throw new ExpressError(msg, 400);
     }
 
-
     next();
 }
 

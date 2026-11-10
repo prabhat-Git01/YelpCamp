@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-export const campgroundSchema = Joi.object({
+const campgroundSchema = Joi.object({
     campground: Joi.object({
         title: Joi.string().required(),
         image: Joi.string().required(),
@@ -10,4 +10,4 @@ export const campgroundSchema = Joi.object({
     }).required()
 });
 
-// export default { campgroundSchema };
+export {campgroundSchema};
